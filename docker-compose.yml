@@ -2,17 +2,16 @@ version: '3.8'
 
 services:
   wordpress:
-    image: ubuntu:latest
+    build: ./wordpress # Esta línea apunta al directorio donde está el Dockerfile
     container_name: wordpress
     ports:
-      - "8080:80"
-    volumes:
-      - wordpress_data:/var/www/html
+      - "8080:80"  # Accede a WordPress a través de http://localhost:8080
     depends_on:
       - db
+    volumes:
+      - wordpress_data:/var/www/html  # Volumen para persistir los datos de WordPress
     networks:
       - wordpress_network
-    command: /bin/bash -c "apt update && apt install -y apache2 && echo 'ServerName localhost' >> /etc/apache2/apache2.conf && apache2ctl -D FOREGROUND"
 
   db:
     image: mysql:5.7
@@ -23,7 +22,7 @@ services:
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: wordpress
     volumes:
-      - db_data:/var/lib/mysql
+      - db_data:/var/lib/mysql  # Volumen para persistir los datos de la base de datos
     networks:
       - wordpress_network
 
@@ -33,3 +32,4 @@ volumes:
 
 networks:
   wordpress_network:
+
