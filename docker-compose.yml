@@ -2,14 +2,14 @@ version: '3.8'
 
 services:
   wordpress:
-    build: ./wordpress # Esta línea apunta al directorio donde está el Dockerfile
+    build: ./wordpress 
     container_name: wordpress
     ports:
-      - "8080:80"  # Accede a WordPress a través de http://localhost:8080
+      - "8080:80"
     depends_on:
       - db
     volumes:
-      - wordpress_data:/var/www/html  # Volumen para persistir los datos de WordPress
+      - wordpress_data:/var/www/html
     networks:
       - wordpress_network
 
@@ -22,7 +22,7 @@ services:
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: wordpress
     volumes:
-      - db_data:/var/lib/mysql  # Volumen para persistir los datos de la base de datos
+      - db_data:/var/lib/mysql
     networks:
       - wordpress_network
 
