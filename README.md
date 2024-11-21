@@ -219,7 +219,7 @@ Una vez que los contenedores estén en funcionamiento:
         - Nombre de usuario: wordpress
         - Contraseña: wordpress
         - Servidor de la base de datos: db
-        - Prefijo de la tabla: wp_ (puedes dejarlo como está o personalizarlo si lo prefieres)
+        - Prefijo de la tabla: wp_ 
           
    - Configura un usuario y contraseña para acceder al panel de administración.
 
