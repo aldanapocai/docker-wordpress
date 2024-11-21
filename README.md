@@ -214,7 +214,13 @@ Una vez que los contenedores estén en funcionamiento:
 
 1. Accede a [http://localhost:8080](http://localhost:8080).
 2. Completa el asistente de instalación de WordPress:
-   - Ingresa los datos de tu sitio.
+   - Ingresa los datos de la base de datos:
+        - Nombre de la base de datos: wordpress
+        - Nombre de usuario: wordpress
+        - Contraseña: wordpress
+        - Servidor de la base de datos: db
+        - Prefijo de la tabla: wp_ (puedes dejarlo como está o personalizarlo si lo prefieres)
+          
    - Configura un usuario y contraseña para acceder al panel de administración.
 
 ### 4. Detener los Servicios
