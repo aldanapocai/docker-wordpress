@@ -17,9 +17,13 @@ Orquesta los servicios necesarios para ejecutar WordPress, incluyendo:
 
 ## Explicación del `Dockerfile`
 El `Dockerfile` es responsable de construir el contenedor que ejecutará WordPress.
-A continuación se explican las instalaciones necesarias, que se hacen de forma automatizada en el Dockerfile.
 
-Para eso, vamos al sitio web <https://wordpress.org/about/requirements/>, que son los requerimientos de wordpress.
+A continuación se explican las instalaciones necesarias sobre Ubuntu, para que todo el contenedor funcione correctamente.
+Recoradar que estas instalaciones **se hacen de forma automatizada en el Dockerfile** (no hay que instalarlas manualmente).
+
+### `Introducción - Requerimientos de WordPress`
+
+Para conocer los requerimientos de WordPress, vamos al sitio web <https://wordpress.org/about/requirements/>.
 Allí vemos que necesita el lenguaje php, la base de datos MySQL (o MariaDB), y un web server (Apache o Nginx) que soporte PHP y MySQL. 
 Para más información de cada uno, visitar <https://make.wordpress.org/hosting/handbook/server-environment/>
 
@@ -75,13 +79,11 @@ Estos son los pasos que dice:
 
 Para cumplir con todas estos pasos, utilizamos la siguiente línea en nuestro *Dockerfile*:
 ```bash
-  RUN cd /home &&  wget https://wordpress.org/latest.zip && unzip latest.zip && mv wordpress/\* /var/www/html/
-
-  RUN rm -rf /home/latest.zip /home/wordpress
+ RUN cd /tmp &&  wget https://wordpress.org/latest.zip && unzip latest.zip && mv wordpress/\* /var/www/html/
 ```
-Este comando comienza moviéndose a home. Luego descarga, descomprime, y mueve la carpeta generada *wordpress* a */var/www/html* que es donde se va a ejecutar todo.
-Luego, borra la descarga y la carpeta resultante (que quedó vacía).
-No extraer directamente es /var/www/html, ya que es una mala práctica.
+Este comando comienza moviéndose a /tmp, debido a que es una carpeta temporal, y sus contenidos se limpiarán automáticamente.
+Luego descarga, descomprime, y mueve la carpeta generada *wordpress* a */var/www/html* que es donde se va a ejecutar todo.
+No se recomienda extraer directamente en /var/www/html, ya que es una mala práctica.
 
 - **Configuración de Virtual Hosts**
 
@@ -132,18 +134,7 @@ Esto hace lo siguiente:
 5) Error log y custom log: son los archivos de logging. Dejamos ubicación por defecto.
 
 ### **Configuraciones adicionales**
-
-- **`RUN a2enmod rewrite'`**:
-  - Este comando habilita el módulo `mod_rewrite` en Apache, el cual es necesario para que WordPress pueda gestionar permalinks. Más información en la [documentación oficial de mod_rewrite](https://httpd.apache.org/docs/current/mod/mod_rewrite.html).
  
-- **`RUN service apache2 restart`**:
-  - Reinicia el servicio de Apache para aplicar los cambios realizados, como la habilitación de módulos o la modificación de configuraciones.
-    
-- **`COPY setup.sh /setup.sh`**:
-  - Copia el archivo `setup.sh` desde el sistema host al contenedor en la ruta `/setup.sh`. Este script es útil para automatizar tareas como la configuración del archivo `wp-config.php`, que define la conexión a la base de datos y otros parámetros clave para WordPress.
-- **`RUN chmod +x /setup.sh`**:
-  - Otorga permisos de ejecución al script copiado para que pueda ejecutarse dentro del contenedor.
-    
 - **`EXPOSE 80`**:
   - Declara que el contenedor utiliza el puerto 80 para manejar solicitudes HTTP. Este comando no configura el puerto, pero es informativo para herramientas como Docker Compose. Más detalles en la [documentación de EXPOSE](https://docs.docker.com/engine/reference/builder/#expose).
  
