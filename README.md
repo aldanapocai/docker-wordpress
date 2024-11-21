@@ -189,3 +189,46 @@ Esto hace lo siguiente:
   - **`wordpress_network`**:
     - Conecta la base de datos a la misma red que el contenedor de WordPress.
 
+# Cómo Utilizar Este Proyecto para Correr WordPress
+
+Este repositorio contiene la configuración necesaria para levantar un entorno funcional de WordPress utilizando Docker. Incluye un contenedor personalizado basado en Ubuntu para WordPress y otro para la base de datos MySQL. A continuación, se explican los pasos para ejecutar el proyecto.
+
+---
+
+## Requisitos Previos
+
+Asegúrate de tener instalados los siguientes programas:
+
+1. **Docker**: [Descargar e instalar Docker](https://docs.docker.com/get-docker/).
+2. **Docker Compose**: [Descargar e instalar Docker Compose](https://docs.docker.com/compose/install/).
+
+---
+
+## Pasos para Ejecutar el Proyecto
+
+### 1. Clonar el Repositorio
+Primero, clona este repositorio:
+```bash
+git clone <url_del_repositorio>
+cd <nombre_del_repositorio>
+```
+### 2.
+Ejecuta el siguiente comando para construir la imagen personalizada y levantar los servicios:
+```bash
+docker-compose up -d
+```
+### 3. Acceder a WordPress
+
+Una vez que los contenedores estén en funcionamiento:
+
+1. Accede a [http://localhost:8080](http://localhost:8080).
+2. Completa el asistente de instalación de WordPress:
+   - Ingresa los datos de tu sitio.
+   - Configura un usuario y contraseña para acceder al panel de administración.
+
+### 4. Detener los Servicios
+
+Si deseas detener y eliminar los contenedores:
+```bash
+docker-compose down
+
