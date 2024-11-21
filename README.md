@@ -18,6 +18,26 @@ Orquesta los servicios necesarios para ejecutar WordPress, incluyendo:
 ## Explicación del `Dockerfile`
 El `Dockerfile` es responsable de construir el contenedor que ejecutará WordPress.
 
+.
+.
+.
+
+- **`RUN a2enmod rewrite'`**:
+  - Este comando habilita el módulo `mod_rewrite` en Apache, el cual es necesario para que WordPress pueda gestionar permalinks. Más información en la [documentación oficial de mod_rewrite](https://httpd.apache.org/docs/current/mod/mod_rewrite.html).
+ 
+- **`RUN service apache2 restart`**:
+  - Reinicia el servicio de Apache para aplicar los cambios realizados, como la habilitación de módulos o la modificación de configuraciones.
+    
+- **`COPY setup.sh /setup.sh`**:
+  - Copia el archivo `setup.sh` desde el sistema host al contenedor en la ruta `/setup.sh`. Este script es útil para automatizar tareas como la configuración del archivo `wp-config.php`, que define la conexión a la base de datos y otros parámetros clave para WordPress.
+- **`RUN chmod +x /setup.sh`**:
+  - Otorga permisos de ejecución al script copiado para que pueda ejecutarse dentro del contenedor.
+    
+- **`EXPOSE 80`**:
+  - Declara que el contenedor utiliza el puerto 80 para manejar solicitudes HTTP. Este comando no configura el puerto, pero es informativo para herramientas como Docker Compose. Más detalles en la [documentación de EXPOSE](https://docs.docker.com/engine/reference/builder/#expose).
+ 
+- **`CMD ["/bin/bash", "-c", "apache2ctl -D FOREGROUND"]`**:
+  - Inicia Apache en primer plano (`-D FOREGROUND`) para que el proceso principal del contenedor siga activo. Esto es esencial para evitar que Docker detenga el contenedor cuando no hay procesos en ejecución. Más información en la [documentación de CMD](https://docs.docker.com/engine/reference/builder/#cmd).
 
 ## Explicación del `docker-compose.yml`
 
